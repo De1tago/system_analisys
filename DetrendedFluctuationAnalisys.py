@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from MFDFA import MFDFA
-# import pandas as pd
 
 
 # Считываем данные из файла
