@@ -5,19 +5,17 @@ from MFDFA import MFDFA
 
 
 # Считываем данные из файла
-dates = np.loadtxt('dates/isi.txt')
+dates = np.loadtxt('dates/rr2.txt')
 n=dates[0]
+h = dates[1]
 data = dates[2:]
-lag = np.unique(np.logspace(0.5, 3, 100).astype(int))
+lag = np.arange(1, n, h)
 
 # Шум
 # np.random.seed(0)
-# signal_length = 1000
-# data = np.random.randn(signal_length)
-
-# Define scale range
-lag = np.arange(10, 200, 10)
-
+# n = 1000
+# data = np.random.randn(n)
+# lag = np.arange(1, n, 1)
 
 # Вычисляем зависимость lg(F_DFA) от lg(n)
 lag, dfa = MFDFA(data, lag, q=2, order = 2)
@@ -29,8 +27,11 @@ alpha = np.polyfit(np.log10(lag), np.log10(dfa), 1)[0]
 print(f'Показатель скейлинга α: {alpha}')
 
 # Строим график
-plt.plot(np.log10(lag), np.log10(dfa), marker='o')
+plt.subplot(2, 1, 1)
+plt.plot(data)
+plt.subplot(2, 1, 2)
+plt.loglog(lag, dfa, marker='o')
 plt.xlabel('lg(n)')
 plt.ylabel('lg(DFA)')
-plt.title('Dependence of lg(DFA) on lg(n)')
+# plt.title('Dependence of lg(DFA) on lg(n)')
 plt.show()
